@@ -1,5 +1,13 @@
 import boto3
 import sys
+import os
+
+macid = os.popen("curl -s curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/").read()
+url = "curl -s http://169.254.169.254/latest/meta-data/network/interfaces/macs/"+macid+"security-group-ids"
+sg_id = os.popen(url).read()
+
+#read the security group
+#sg_id = str(sys.argv[1])
 
 #Need to iterate over regions
 def get_regions():
@@ -8,28 +16,27 @@ def get_regions():
     regions = [region['RegionName'] for region in region_response['Regions']]
     return regions
 
+#iterate over regions and print
 for region in get_regions():
-    print region
-
-#calling the functions
-
-#sg_id = str(sys.argv[1])
-#
-#  client = boto3.client('ec2', region_name=n)
-#  reg_con = boto.ec2.connect_to_region(us-east-1)
-#  print reg_con
-#sec_conn = boto.connect_ec2()
-#grp = sec_conn.get_all_security_groups()
-#if grp:
-#    for g in grp:
-#        if g.id == sg_id:
-#          print 'you are about to update the security group', g.name
-#          g.revoke('tcp',80,80,'68.255.14.150/32')
-
-#for sec in sec_all:
-#    print sec.name
-
-#sg = sec_all[1]
-#print sg.group_name
-#print sg.rules
+    client = boto3.client('ec2', region_name=region)
+    grp = client.describe_security_groups()
+    for m in grp['SecurityGroups']:
+        #print m['GroupId'], region
+        if m['GroupId'] == sg_id:
+            print 'we found your SecurityGroup'
+            client.revoke_security_group_ingress(
+                GroupId=sg_id,
+                IpPermissions=[
+                    {
+                        'IpProtocol': "tcp",
+                        'FromPort': 22,
+                        'ToPort': 22,
+                        'IpRanges': [
+                            {
+                                'CidrIp': '72.196.48.126/32'
+                            }
+                       ]
+                    }
+                ]
+            )
 
