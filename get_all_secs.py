@@ -10,20 +10,20 @@ sg_id = os.popen(url).read()
 #sg_id = str(sys.argv[1])
 
 #Need to iterate over regions
-def get_regions():
-    client = boto3.client('ec2')
-    region_response = client.describe_regions()
-    regions = [region['RegionName'] for region in region_response['Regions']]
-    return regions
-
+#def get_regions():
+#    client = boto3.client('ec2')
+#    region_response = client.describe_regions()
+#    regions = [region['RegionName'] for region in region_response['Regions']]
+#    return regions
+region = "us-east-1"
 #iterate over regions and print
-for region in get_regions():
+#for region in get_regions():
     client = boto3.client('ec2', region_name=region)
-    grp = client.describe_security_groups()
-    for m in grp['SecurityGroups']:
+    #grp = client.describe_security_groups()
+    #for m in grp['SecurityGroups']:
         #print m['GroupId'], region
-        if m['GroupId'] == sg_id:
-            print 'we found your SecurityGroup'
+        #if m['GroupId'] == sg_id:
+            #print 'we found your SecurityGroup'
             client.revoke_security_group_ingress(
                 GroupId=sg_id,
                 IpPermissions=[
