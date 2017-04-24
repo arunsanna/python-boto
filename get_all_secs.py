@@ -18,7 +18,7 @@ sg_id = os.popen(url).read()
 region = "us-east-1"
 #iterate over regions and print
 #for region in get_regions():
-    client = boto3.client('ec2', region_name=region)
+# client = boto3.client('ec2', region_name=region)
     #grp = client.describe_security_groups()
     #for m in grp['SecurityGroups']:
         #print m['GroupId'], region
