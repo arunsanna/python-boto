@@ -1,9 +1,10 @@
 import boto3
 from datetime import datetime, timedelta
+
 #import sys
 #import os
-
 #Need to iterate over regions
+
 def get_regions():
     client = boto3.client('ec2')
     region_response = client.describe_regions()

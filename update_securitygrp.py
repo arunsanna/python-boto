@@ -29,6 +29,7 @@ for region in get_regions():
         for n in inst:
             security_group = n['SecurityGroups']
             for sg in security_group:
+                #we need to use try and catch function here
                 sgid = sg['GroupId']
                 print sgid
                 response = client.describe_security_groups(GroupIds=['string'])
