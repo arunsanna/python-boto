@@ -1,16 +1,14 @@
 import boto3
 from datetime import datetime, timedelta
 
-#import sys
-#import os
 #Need to iterate over regions
-
 def get_regions():
     client = boto3.client('ec2')
     region_response = client.describe_regions()
     regions = [region['RegionName'] for region in region_response['Regions']]
     return regions
 
+#calcualte the new expiration date
 date_after = datetime.now() + timedelta(days=10)
 date = date_after.strftime('%Y-%m-%d')
 
@@ -38,9 +36,8 @@ for region in get_regions():
                 },
             ]
         )
+
 #update the damm tag now
-
-
 #  resp = client.describe_instances()
  # instancelist = []
  # for reservation in (response["Reservations"]):
