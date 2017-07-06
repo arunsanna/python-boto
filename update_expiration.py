@@ -19,23 +19,23 @@ tagvalue = ['arun.sanna', 'andy.boutte', 'potluri']
 for region in get_regions():
     client = boto3.client('ec2', region_name= region)
     resp = client.describe_instances(Filters=[
-      {'Name': 'tag:'+tagkey, 'Values': tagvalue}
+        {'Name': 'tag:'+tagkey, 'Values': tagvalue}
     ])
     for m in resp['Reservations']:
-      inst = m['Instances']
-      for n in inst:
-        instance = n['InstanceId']
-        cresp = client.create_tags(
-            Resources=[
-                instance
-            ],
-            Tags=[
-                {
-                    'Key': 'ExpirationDate',
-                    'Value': date
-                },
-            ]
-        )
+        inst = m['Instances']
+        for n in inst:
+            instance = n['InstanceId']
+            cresp = client.create_tags(
+                Resources=[
+                    instance
+                ],
+                Tags=[
+                    {
+                        'Key': 'ExpirationDate',
+                        'Value': date
+                    },
+                ]
+            )
 
 #update the damm tag now
 #  resp = client.describe_instances()
