@@ -21,6 +21,7 @@ for region in get_regions():
         for n in inst:
             instance = n['InstanceId']
             #stop the instance
+            print 'stopping the instace '+instance
             client.stop_instances(
                 InstanceIds=[instance],
                 Force=True
