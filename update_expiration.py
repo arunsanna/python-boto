@@ -25,6 +25,7 @@ for region in get_regions():
         inst = m['Instances']
         for n in inst:
             instance = n['InstanceId']
+            print instance
             cresp = client.create_tags(
                 Resources=[
                     instance

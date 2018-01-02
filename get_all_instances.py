@@ -17,4 +17,5 @@ for region in get_regions():
         inst = m['Instances']
         #print inst
         for n in inst:
-            print n['InstanceId'], region
+            #print n['InstanceId'], region, n['State']['Name']
+            print n['Tags']['Key']

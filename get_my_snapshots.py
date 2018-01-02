@@ -13,14 +13,15 @@ tagvalue = ['arun.sanna']
 
 for region in get_regions():
     client = boto3.client('ec2', region_name= region)
-    resp = client.describe_instances(Filters=[
+    resp = client.describe_snapshots(Filters=[
         {'Name': 'tag:'+tagkey, 'Values': tagvalue}
     ])
-    for m in resp['Reservations']:
-        inst = m['Instances']
-        for n in inst:
-            instance = n['InstanceId']
-            #stop the instance
-            client.start_instances(
-                InstanceIds=[instance]
-            )
+    #print resp
+    for m in resp['Snapshots']:
+        tags =  m['Tags']
+        for tag in tags:
+            if tag['Key'] == 'Name':
+                print region+' '+tag['Value']
+                if tag['Key'] == 'ExpirationDate':
+                    print 'Expiration Date '+tag['Value']
+
